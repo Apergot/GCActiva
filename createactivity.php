@@ -6,17 +6,6 @@ if(!View::checkIfEnterprise()){
     header('Location: index.php');
 }
 
-$db = new PDO("sqlite:./datos.db");
-$db->exec('PRAGMA foreign_keys = ON;');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$sql1 = 'SELECT * FROM actividades WHERE id='.$_GET['id'].';';
-$res1=$db->prepare($sql1);
-$res1->execute();
-$res1->setFetchMode(PDO::FETCH_NAMED);
-$datos1 = $res1->fetchAll();
-
-$activityEndingTime = strtotime(date("H:i",$datos[0]['inicio'])) + $datos1[0]['duracion'];
-
 if (isset($_POST['doActivity'])) {
     $target_dir="uploads/";
     $target_file= $target_dir.basename($_FILES["fileToUpload"]["name"]);
@@ -63,23 +52,21 @@ if (isset($_POST['doActivity'])) {
             error.log("There was an error uploading an image");
         }
     }
-    if ($uploadOk == 0) {
-        $sql = 'UPDATE actividades SET idempresa=?, nombre=?, tipo=?, descripcion=?, precio=?, aforo=?, inicio=?, duracion=? WHERE id=?;';
-        $res=$db->prepare($sql);
-        $res->execute(array($identerprise, $name, $type, $description, $price, $capacity, $init, $duration, $_GET['id']));
-        header('Location: activitycrud.php');
-    } else {
-        $sql = 'UPDATE actividades SET idempresa=?, nombre=?, tipo=?, descripcion=?, precio=?, aforo=?, inicio=?, duracion=?, imagen=? WHERE id=?;';
-        $res=$db->prepare($sql);
-        $res->execute(array($identerprise, $name, $type, $description, $price, $capacity, $init, $duration, file_get_contents($target_file), $_GET['id']));
-        header('Location: activitycrud.php');
-    }
+    
+    $db = new PDO("sqlite:./datos.db");
+    $db->exec('PRAGMA foreign_keys = ON;');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = 'INSERT INTO actividades (idempresa, nombre, tipo, descripcion, precio, aforo, inicio, duracion, imagen) VALUES(?,?,?,?,?,?,?,?,?)';
+    $res=$db->prepare($sql);
+    $res->execute(array($identerprise, $name, $type, $description, $price, $capacity, $init, $duration, file_get_contents($target_file)));
+   
+    header('Location: activitycrud.php');
 }
 ?>
 
 <main class="container">
     <section>
-        <h2>Editar actividad</h2>
+        <h2>Crear actividad</h2>
         <div class="form-container create-edit-activity">
             <p>Una actividad debe tener como mínimo un nombre, un tipo, una descripción y un precio.
              Asegúrese de completar esos campos como mínimo.</p>
@@ -87,22 +74,21 @@ if (isset($_POST['doActivity'])) {
                 <div class="form-userdata">
                     <div>
                         <label for="name">Nombre:</label>
-                        <input type="text" id="name" name="name" required value="<?php echo $datos1[0]['nombre']?>"/>
+                        <input type="text" id="name" name="name" placeholder="Nombre de la actividad..." required/>
                     </div>
                     <div>
                         <label for="capacity">Aforo:</label>
-                        <input type="number" id="capacity" min="0" name="capacity" value="<?php echo $datos1[0]['aforo']?>"/>
+                        <input type="number" id="capacity" min="0" name="capacity" placeholder="Número de participantes..."/>
                     </div>
                 </div>
                 <div class="form-usercontact">
                     <div>
                         <label for="price">Precio:</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" required value="<?php echo $datos1[0]['precio']?>"/>
+                        <input type="number" id="price" name="price" step="0.01" min="0" placeholder="Precio por persona..." required/>
                     </div>
                     <div>
                         <label for="type">Tipo:</label>
                         <select id="type" name="type" required>
-                            <option value="<?php echo $datos1[0]['tipo']?>" selected><?php echo $datos1[0]['tipo']?></option>
                             <option value="Musical">Musical</option>
                             <option value="Senderismo">Senderismo</option>
                             <option value="Espiritual">Espiritual</option>
@@ -115,37 +101,29 @@ if (isset($_POST['doActivity'])) {
                 <div class="form-userdata">
                     <div>
                         <label for="date">Fecha:</label>
-                        <input type="date" id="date" name="date" value="<?php echo date("Y-m-d", $datos1[0]['inicio'])?>"/>
+                        <input type="date" id="date" name="date"/>
                     </div>
                     <div>
                         <label for="time">Hora de inicio:</label>
-                        <input type="time" id="from" name="from" value="<?php echo date("H:i", $datos1[0]['inicio'])?>"/>
+                        <input type="time" id="from" name="from"/>
                     </div>
                     <div>
                         <label for="to">Hora de finalización:</label>
-                        <input type="time" id="to" name="to" value="<?php echo  date("H:i", $activityEndingTime)?>"/>
+                        <input type="time" id="to" name="to"/>
                     </div>
                 </div>
                 <div class="textarea-container">
                     <label for="description">Descripción de la actividad:</label>
-                    <textarea name="description" id="description" required rows="8" cols="40">
-                        <?php echo $datos1[0]['descripcion']?>
-                    </textarea>
+                    <textarea name="description" id="description" required rows="8" cols="40" placeholder="Escriba aquí una breve descripción de la actividad..."></textarea>
                 </div>
                 <div class="form-userdata">
-                    <div class="edit-img">
-                        <?php 
-                            $imgb64 = View::imgtobase64($datos1[0]['imagen']);
-                            echo "<img class=\"form-img\" src=\"{$imgb64}\" alt=\"activityIMG\">";
-                        ?>
-                    </div>
                     <div>
                         <label for="fileToUpload">Imagen publicitaria para la actividad:</label>
                         <input type="file" id="fileToUpload" name="fileToUpload"/>
                     </div>
                 </div>
                 <div class="submit-btn">
-                    <button type="submit" name="doActivity"  class="std-button">Modificar actividad</button>
+                    <button type="submit" name="doActivity" class="std-button">Crear actividad</button>
                 </div>
             </form>
         </div>

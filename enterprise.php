@@ -18,15 +18,18 @@ $enterpriseActivities = $res2->fetchAll();
 ?>
 <main class="container">
     <section>
-        <?php
-            echo "<h2>{$enterpriseData[0]['nombre']}</h2>";
-            echo "<div class=\"shadow-container\">";
-            echo "<p>{$enterpriseData[0]['descripcion']}</p>";
-            echo "<p>Datos de contacto: {$enterpriseData[0]['contacto']}</p>";
-            $imgb64 = View::imgtobase64($enterpriseData[0]['logo']);
-            echo "<img src=\"{$imgb64}\">";
-            echo"<h3>Listado de actividades organizadas por {$enterpriseData[0]['nombre']}</h3>";
-        ?>
+            <?php
+                echo "<h2>{$enterpriseData[0]['nombre']}</h2>";
+                echo "<div class=\"shadow-container\">";
+                echo "<div class=\"enterprise-data\">";
+                echo "<p>{$enterpriseData[0]['descripcion']}</p>";
+                echo "<p>Datos de contacto: {$enterpriseData[0]['contacto']}</p>";
+                $imgb64 = View::imgtobase64($enterpriseData[0]['logo']);
+                echo "<img src=\"{$imgb64}\">";
+                echo "</div>";
+                echo"<h3>Listado de actividades organizadas por {$enterpriseData[0]['nombre']}</h3>";
+            ?>
+        </div>
         <table class="content-table">
                 <thead>
                     <tr>

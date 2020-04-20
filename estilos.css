@@ -497,6 +497,11 @@
         font-weight: 500;
     }
     
+    .auth {
+        display:none;
+        content:'Alejandro Perdomo';
+    }
+    
     .crudflex .edit-button{
         background-color: #00a9ff;
         color:white;
@@ -537,6 +542,18 @@
         max-height: 100%;
         display: block;
     }
+    
+    .enterprise-data{
+        display:flex;
+        flex-direction:row;
+        padding: 1rem;
+        align-items: center;
+    }
+    
+    .enterprise-data p {
+        padding: 2rem;
+    }
+    
 }
 
 @media only screen and (max-width: 768px) {

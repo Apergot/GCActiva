@@ -28,6 +28,24 @@ class View{
         }
         return $mime . $b64;
     }
+    
+    public static function checkIfEnterprise(){
+        if(isset($_SESSION['user'])){
+            if($_SESSION['user']['tipo'] == 2){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static function checkIfClient() {
+        if(isset($_SESSION['user'])){
+            if($_SESSION['user']['tipo'] == 3){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static function navigation(){
         if(isset($_POST['logOut'])) {
@@ -91,7 +109,7 @@ class View{
     
     public static function footer(){
         $footer = "<footer>
-                        <p>&copy;2020 Alejandro Perdomo P4</p>
+                        <p>&copy;2020 Grupo 01 P4</p>
                         <p>Contact information: <a class=\"mailto\" href=\"mailto:someone@example.com\">someone@example.com</a>.</p>
                         <p>Tlfno: 123456789</p>
                     </footer>";

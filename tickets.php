@@ -2,6 +2,9 @@
 include_once('presentation.class.php');
 View::start('Mis tickets');
 View::navigation();
+if(!View::checkIfClient()){
+    header('Location: index.php');
+}
 if (isset($_SESSION['user'])) {
     $db = new PDO("sqlite:./datos.db");
     $db->exec('PRAGMA foreign_keys = ON;');
