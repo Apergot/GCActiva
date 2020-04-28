@@ -83,21 +83,24 @@ if (isset($_POST['doActivity'])) {
         <div class="form-container create-edit-activity">
             <p>Una actividad debe tener como mínimo un nombre, un tipo, una descripción y un precio.
              Asegúrese de completar esos campos como mínimo.</p>
-            <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+            <form name="activityForm" method="post" accept-charset="utf-8" enctype="multipart/form-data" onsubmit="return validateActivityForm()">
                 <div class="form-userdata">
                     <div>
                         <label for="name">Nombre:</label>
                         <input type="text" id="name" name="name" required value="<?php echo $datos1[0]['nombre']?>"/>
+                        <p id="valid_name"></p>
                     </div>
                     <div>
                         <label for="capacity">Aforo:</label>
-                        <input type="number" id="capacity" min="0" name="capacity" value="<?php echo $datos1[0]['aforo']?>"/>
+                        <input type="number" id="capacity" min="0" name="capacity" value="<?php echo $datos1[0]['aforo']?>" required/>
+                        <p id="valid_capacity"></p>
                     </div>
                 </div>
                 <div class="form-usercontact">
                     <div>
                         <label for="price">Precio:</label>
                         <input type="number" id="price" name="price" step="0.01" min="0" required value="<?php echo $datos1[0]['precio']?>"/>
+                         <p id="valid_price"></p>
                     </div>
                     <div>
                         <label for="type">Tipo:</label>
@@ -110,20 +113,23 @@ if (isset($_POST['doActivity'])) {
                             <option value="Riesgo">Riesgo</option>
                             <option value="Acuático">Acuático</option>
                         </select>
+                        <p id="valid_type"></p>
                     </div>
                 </div>
                 <div class="form-userdata">
                     <div>
                         <label for="date">Fecha:</label>
-                        <input type="date" id="date" name="date" value="<?php echo date("Y-m-d", $datos1[0]['inicio'])?>"/>
+                        <input type="date" id="date" name="date" required value="<?php echo date("Y-m-d", $datos1[0]['inicio'])?>"/>
+                        <p id="valid_date"></p>
                     </div>
                     <div>
                         <label for="time">Hora de inicio:</label>
-                        <input type="time" id="from" name="from" value="<?php echo date("H:i", $datos1[0]['inicio'])?>"/>
+                        <input type="time" id="from" name="from" required value="<?php echo date("H:i", $datos1[0]['inicio'])?>"/>
+                        <p id="valid_time"></p>
                     </div>
                     <div>
                         <label for="to">Hora de finalización:</label>
-                        <input type="time" id="to" name="to" value="<?php echo  date("H:i", $activityEndingTime)?>"/>
+                        <input type="time" id="to" name="to" required value="<?php echo  date("H:i", $activityEndingTime)?>"/>
                     </div>
                 </div>
                 <div class="textarea-container">
@@ -131,6 +137,7 @@ if (isset($_POST['doActivity'])) {
                     <textarea name="description" id="description" required rows="8" cols="40">
                         <?php echo $datos1[0]['descripcion']?>
                     </textarea>
+                    <p id="valid_description"></p>
                 </div>
                 <div class="form-userdata">
                     <div class="edit-img">
@@ -151,7 +158,7 @@ if (isset($_POST['doActivity'])) {
         </div>
     </section>
 </main>
-
+<script src="scripts.js"></script>
 <?php
 View::footer();
 View::end();

@@ -70,21 +70,24 @@ if (isset($_POST['doActivity'])) {
         <div class="form-container create-edit-activity">
             <p>Una actividad debe tener como mínimo un nombre, un tipo, una descripción y un precio.
              Asegúrese de completar esos campos como mínimo.</p>
-            <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+            <form name="activityForm" method="post" accept-charset="utf-8" enctype="multipart/form-data" onsubmit="return validateActivityForm()">
                 <div class="form-userdata">
                     <div>
                         <label for="name">Nombre:</label>
                         <input type="text" id="name" name="name" placeholder="Nombre de la actividad..." required/>
+                        <p id="valid_name"></p>
                     </div>
                     <div>
                         <label for="capacity">Aforo:</label>
-                        <input type="number" id="capacity" min="0" name="capacity" placeholder="Número de participantes..."/>
+                        <input type="number" id="capacity" min="0" name="capacity" placeholder="Número de participantes..." required/>
+                        <p id="valid_capacity"></p>
                     </div>
                 </div>
                 <div class="form-usercontact">
                     <div>
                         <label for="price">Precio:</label>
                         <input type="number" id="price" name="price" step="0.01" min="0" placeholder="Precio por persona..." required/>
+                        <p id="valid_price"></p>
                     </div>
                     <div>
                         <label for="type">Tipo:</label>
@@ -96,25 +99,31 @@ if (isset($_POST['doActivity'])) {
                             <option value="Riesgo">Riesgo</option>
                             <option value="Acuático">Acuático</option>
                         </select>
+                        <p id="valid_type"></p>
                     </div>
                 </div>
                 <div class="form-userdata">
                     <div>
                         <label for="date">Fecha:</label>
-                        <input type="date" id="date" name="date"/>
+                        <input type="date" id="date" name="date" required/>
+                        <p id="valid_date"></p>
                     </div>
-                    <div>
-                        <label for="time">Hora de inicio:</label>
-                        <input type="time" id="from" name="from"/>
-                    </div>
-                    <div>
-                        <label for="to">Hora de finalización:</label>
-                        <input type="time" id="to" name="to"/>
-                    </div>
+                        <div>
+                            <label for="time">Hora de inicio:</label>
+                            <input type="time" id="from" name="from" required/>
+                            <p id="valid_time"></p>
+                        </div>
+                        
+                        <div>
+                            <label for="to">Hora de finalización:</label>
+                            <input type="time" id="to" name="to" required/>
+                        </div>
+                        
                 </div>
                 <div class="textarea-container">
                     <label for="description">Descripción de la actividad:</label>
-                    <textarea name="description" id="description" required rows="8" cols="40" placeholder="Escriba aquí una breve descripción de la actividad..."></textarea>
+                    <textarea name="description" id="description" required rows="8" cols="40" placeholder="Escriba aquí una breve descripción de la actividad..." required></textarea>
+                    <p id="valid_description"></p>
                 </div>
                 <div class="form-userdata">
                     <div>
@@ -129,7 +138,7 @@ if (isset($_POST['doActivity'])) {
         </div>
     </section>
 </main>
-
+<script src="scripts.js"></script>
 <?php
 View::footer();
 View::end();

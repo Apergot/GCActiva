@@ -42,7 +42,7 @@ if (isset($_SESSION['user'])) {
                     
                     foreach($datos as $registro){
                         $init = date("d-m-Y H:i", $registro['inicio']);
-                        echo "<tr>";
+                        echo "<tr id=\"row{$registro['id']}\">";
                         echo "<td><a href=\"detail.php?activity={$registro['id']}\">{$registro['nombre']}</a></td>";
                         echo "<td>{$registro['tipo']}</td>";
                         echo "<td>{$init}</td>";
@@ -51,9 +51,7 @@ if (isset($_SESSION['user'])) {
                         $actions =  "<td>
                                         <div class=\"action-buttons\">
                                             <a href=\"editactivity.php?id={$registro['id']}\"><button class=\"edit-button\">Editar</button></a>
-                                            <form method=\"post\" action=\"activitycrud.php?id={$registro['id']}\">
-                                                <button type=\"submit\" name=\"deleteActivity\" class=\"delete-button\">Eliminar</button>
-                                            </form>
+                                            <button onclick=\"deleteActivity({$registro['id']} , '{$registro['nombre']}')\" class=\"delete-button\">Eliminar</button>
                                         </div>
                                     </td>";
                         echo $actions;
@@ -72,6 +70,7 @@ if (isset($_SESSION['user'])) {
         </div>
     </main>
 </div>
+<script src="scripts.js"></script>
 <?php
 View::footer();
 View::end();

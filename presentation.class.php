@@ -64,31 +64,29 @@ class View{
                             <a href=\"index.php\">Inicio</a>
                             <a href=\"tabla.php\">Catálogo</a>
                             <a href=\"activitycrud.php\">Mis Actividades</a>
+                            <a href=\"search.php\">Buscar Actividad</a>
                         </div>";
             } elseif ($_SESSION['user']['tipo'] == 3) {
                 $links = "<div class=\"links-container\">
                             <a href=\"index.php\">Inicio</a>
                             <a href=\"tabla.php\">Catálogo</a>
                             <a href=\"tickets.php\">Mis tickets</a>
+                            <a href=\"search.php\">Buscar Actividad</a>
                         </div>";
             }else {
                 $links = "<div class=\"links-container\">
                         <a href=\"index.php\">Inicio</a>
                         <a href=\"tabla.php\">Catálogo</a>
+                        <a href=\"search.php\">Buscar Actividad</a>
                     </div>";   
             }
         } else {
             $links = "<div class=\"links-container\">
                     <a href=\"index.php\">Inicio</a>
                     <a href=\"tabla.php\">Catálogo</a>
+                    <a href=\"search.php\">Buscar Actividad</a>
                 </div>";   
         }
-                
-        $search = "<form class=\"search-form\" action=\"search.php\" method=\"post\">
-                        <input type=\"text\" name=\"search\" placeholder=\"Busca actividades...\">
-                        <button type=\"submit\">Buscar</button>
-                    </form>";
-                    
         if (isset($_SESSION['user'])) {
              $buttons = "<div class =\"nav-buttons\">
                                 <button disabled class=\"loggeduser\"><img src=\"./img/user.png\">{$_SESSION['user']['nombre']}</button>
@@ -104,7 +102,7 @@ class View{
                         </div>";   
         }
         $ending = "</nav></header>"; 
-        echo $logo,$links,$search,$buttons,$ending;
+        echo $logo,$links,$buttons,$ending;
     }
     
     public static function footer(){

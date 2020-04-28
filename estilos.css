@@ -7,6 +7,15 @@
         margin: 0;
     }
     
+    #result{
+        display: none;
+    }
+    
+    #no-result{
+        display:block;
+    }
+    
+    
     .wrapper {
         height: 100vh;
     }
@@ -104,7 +113,7 @@
     header nav .links-container{
         display:flex;
         justify-content: flex-end;
-        width: 40%;
+        width: 60%;
         align-items: center;
         margin-right: 25px;
     }
@@ -138,7 +147,7 @@
     }
     
     .search-form button {
-        padding: 6px;
+        padding: 1rem;
         font-size: 0.8rem;
     }
     
@@ -552,6 +561,11 @@
     
     .enterprise-data p {
         padding: 2rem;
+    }
+    
+    .no-valid-field {
+        color:red;
+        text-align: center;
     }
     
 }
